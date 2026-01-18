@@ -1,0 +1,123 @@
+---
+interface Props {
+  centerLetter: string;
+  surroundingLetters?: string[];
+}
+
+const { centerLetter, surroundingLetters = ['A', 'B', 'C', 'D', 'E', 'F'] } = Astro.props;
+const viewBox = "0 0 120 103.923";
+const polygonPoints = "0,51.96 30,0 90,0 120,51.96 90,103.92 30,103.92";
+---
+
+<div class="hive-container">
+  <div class="hive">
+    <!-- Center Hexagon -->
+    <svg class="hive-cell center" viewBox={viewBox}>
+      <polygon class="cell-fill" points={polygonPoints}></polygon>
+      <text class="cell-letter" x="50%" y="50%" dy="0.35em">
+        {centerLetter.toUpperCase()}
+      </text>
+    </svg>
+
+    <!-- Surrounding Hexagons -->
+    {surroundingLetters.slice(0, 6).map((letter, index) => (
+      <svg class={`hive-cell outer outer-${index}`} viewBox={viewBox}>
+        <polygon class="cell-fill" points={polygonPoints}></polygon>
+        <text class="cell-letter" x="50%" y="50%" dy="0.35em">
+          {letter.toUpperCase()}
+        </text>
+      </svg>
+    ))}
+  </div>
+</div>
+
+<style>
+  .hive-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .hive {
+    position: relative;
+    width: 250px;
+    height: 290px;
+  }
+
+  .hive-cell {
+    position: absolute;
+    width: 100px;
+    height: 104px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hive-cell .cell-fill {
+    stroke: #fff;
+    stroke-width: 6;
+    transition: all 0.1s ease-in-out;
+  }
+
+  .hive-cell .cell-letter {
+    font-weight: bold;
+    font-size: 32px;
+    text-anchor: middle;
+    fill: #121212;
+  }
+
+  /* Center Cell Styling */
+  .hive-cell.center .cell-fill {
+    fill: #FFC629; /* app-yellow */
+  }
+  .hive-cell.center .cell-letter {
+    font-size: 36px;
+  }
+
+  /* Outer Cell Styling */
+  .hive-cell.outer .cell-fill {
+    fill: #F2F2F2; /* nyt-gray-light */
+  }
+
+  .hive-cell.outer:hover .cell-fill {
+    fill: #E8E8E8; /* darker gray on hover */
+  }
+
+  /* Positioning the Hive Cells */
+  .center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .outer-0 { /* Top */
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .outer-1 { /* Top-right */
+    top: 25%;
+    left: 70%;
+    transform: translate(-25%, -25%);
+  }
+  .outer-2 { /* Bottom-right */
+    top: 75%;
+    left: 70%;
+    transform: translate(-25%, -75%);
+  }
+  .outer-3 { /* Bottom */
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+  }
+  .outer-4 { /* Bottom-left */
+    top: 75%;
+    left: 30%;
+    transform: translate(-75%, -75%);
+  }
+  .outer-5 { /* Top-left */
+    top: 25%;
+    left: 30%;
+    transform: translate(-75%, -25%);
+  }
+</style>

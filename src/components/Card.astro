@@ -1,0 +1,18 @@
+---
+interface Props {
+  class?: string;
+  as?: 'div' | 'article' | 'aside' | 'section' | 'a';
+  href?: string;
+}
+
+const { class: className = '', as: Element = 'div', href, ...rest } = Astro.props;
+
+const baseClasses = 'bg-white rounded-lg border border-gray-200 p-6';
+const combinedClasses = `${baseClasses} ${className}`.trim();
+
+const componentProps = href ? { href, ...rest } : rest;
+---
+
+<Element class={combinedClasses} {...componentProps}>
+  <slot />
+</Element>

@@ -1,1 +1,15 @@
 @import "tailwindcss";
+@theme {
+  /* NY Times Spelling Bee Colors */
+  --color-app-yellow: #FFC629;
+  --color-nyt-gold: #F8D547;
+  --color-nyt-gray-light: #F2F2F2;
+  --color-nyt-gray: #E8E8E8;
+  --color-nyt-gray-dark: #D0D0D0;
+  --color-nyt-text: #121212;
+  --color-nyt-text-light: #666666;
+  
+  /* Font Family */
+  --font-family-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-nyt-display: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

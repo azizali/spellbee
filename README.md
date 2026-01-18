@@ -195,4 +195,9 @@ Have questions? Check out:
 
 ---
 
-**Happy puzzle solvingdev* 🐝✨
+# Todos
+- [ ] Better fonts
+- [ ] Actual solutions
+- [ ] System to do it daily
+- [x] Logo
+

@@ -1,0 +1,105 @@
+---
+import { getCollection } from 'astro:content';
+import Card from '../../components/Card.astro';
+import HexagonLetters from '../../components/HexagonLetters.astro';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, parseCollectionDate } from '../../utils/dateUtils';
+
+export async function getStaticPaths() {
+  const answers = await getCollection('answers');
+  
+  return answers.map((entry) => ({
+    params: { 
+      date: entry.slug 
+    },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: any;
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const date = parseCollectionDate(entry.data.date);
+const formattedDate = formatDate(date);
+---
+
+<Layout 
+  title={`Spelling Bee Answer for ${formattedDate} - SpellBeeMe`}
+  description={`NY Times Spelling Bee answer for ${formattedDate}`}
+>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2">
+      <Card as="article">
+        <div class="mb-6 pb-6 border-b border-gray-300">
+          <a href="/archive" class="text-app-yellow hover:text-nyt-gold text-sm mb-3 inline-block font-medium">
+            ← Back to Archive
+          </a>
+          <h1 class="text-4xl font-light mb-2 text-nyt-text">
+            {formattedDate}
+          </h1>
+          <p class="text-nyt-text-light font-light">
+            Spelling Bee Answer #{entry.slug.split('-').slice(-1)[0]}
+          </p>
+        </div>
+
+        <!-- Hexagon Display -->
+        <div class="mt-8 mb-8">
+          <h2 class="text-2xl font-light mb-6 text-nyt-text">Puzzle Layout</h2>
+          <HexagonLetters centerLetter={entry.data.centerLetter} surroundingLetters={entry.data.surroundingLetters} />
+        </div>
+
+        <div class="prose max-w-none">
+          <Content />
+        </div>
+      </Card>
+    </div>
+
+    <aside class="lg:col-span-1">
+      <Card class="sticky top-24">
+        <h3 class="text-lg font-normal text-nyt-text mb-4">Overview</h3>
+        
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-nyt-text-light font-light">Date</p>
+            <p class="font-medium text-nyt-text">{formattedDate}</p>
+          </div>
+
+          <div class="pt-4 border-t border-gray-300">
+            <p class="text-sm text-nyt-text-light mb-2 font-light">Pangrams Found</p>
+            <p class="text-3xl font-light text-app-yellow">
+              {entry.data.pangrams.length}
+            </p>
+          </div>
+
+          {entry.data.pangrams.length > 0 && (
+            <div class="pt-4 border-t border-gray-300">
+              <p class="text-sm font-medium text-nyt-text mb-3">Pangrams:</p>
+              <ul class="space-y-2">
+                {entry.data.pangrams.map((pangram: string) => (
+                  <li class="text-sm bg-app-yellow text-nyt-text px-3 py-2 rounded-md font-medium">
+                    {pangram}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </Card>
+
+      <Card class="mt-6">
+        <h3 class="text-lg font-normal text-nyt-text mb-4">Navigation</h3>
+        <div class="space-y-2">
+          <a href="/archive" class="px-4 py-2 bg-gray-200 text-nyt-text rounded-lg transition-colors font-medium hover:bg-gray-300 block text-center">
+            View All Answers
+          </a>
+          <a href="/" class="px-4 py-2 bg-app-yellow hover:bg-nyt-gold text-nyt-text rounded-lg transition-colors font-medium block text-center">
+            Today's Answer
+          </a>
+        </div>
+      </Card>
+    </aside>
+  </div>
+</Layout>

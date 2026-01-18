@@ -24,9 +24,12 @@ const { title, description = "Daily Spelling Bee solutions from the NY Times", i
     <meta property="twitter:card" content="summary_large_image" />
     <link rel="canonical" href={Astro.url} />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <title>{title}</title>
   </head>
-  <body class="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 transition-colors duration-300 flex flex-col min-h-screen">
+  <body class="bg-white text-slate-900 flex flex-col min-h-screen font-light">
     <Navigation />
     <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-8">
       <slot />
