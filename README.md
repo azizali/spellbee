@@ -196,8 +196,8 @@ Have questions? Check out:
 ---
 
 # Todos
-- [ ] Better fonts
 - [ ] Actual solutions
 - [ ] System to do it daily
+- [x] Better fonts
 - [x] Logo
 
